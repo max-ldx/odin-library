@@ -1,8 +1,25 @@
-const myLibrary = [];
+let myLibrary = [];
 const libraryElement = document.querySelector('.library');
+const addBookElement = document.querySelector('.add-book');
+const addBookModalElement = document.querySelector('.add-book-modal');
 
-addBookToLibrary('The Lord of The Rings', 'J.R.R Tolkien');
-addBookToLibrary('Ars Obscura', 'François Barranger');
+addBookElement.addEventListener('click', _ => {
+    addBookModalElement.showModal();
+});
+
+addBookModalElement.addEventListener('submit', e => {
+    e.preventDefault();
+    const form = document.querySelector('form');
+    const data = new FormData(form);
+    const values = Object.fromEntries(data.entries());
+    const titleField = document.querySelector('#title');
+    titleField.value = '';
+    const authorField = document.querySelector('#author');
+    authorField.value = '';
+    addBookModalElement.close();
+    addBookToLibrary(values.title, values.author);
+    displayBooks();
+})
 
 function Book(title, author) {
     this.id = crypto.randomUUID();
@@ -16,8 +33,10 @@ function addBookToLibrary(title, author) {
 }
 
 function displayBooks() {
+    libraryElement.textContent = null;
     for (const book of myLibrary) {
         const cardElement = document.createElement('div');
+        cardElement.setAttribute('data-id', book.id);
         const titleElement = document.createElement('h2');
         const authorElement = document.createElement('p');
         titleElement.textContent = book.title;
@@ -28,4 +47,6 @@ function displayBooks() {
     }
 }
 
+addBookToLibrary('The Lord of The Rings', 'J.R.R Tolkien');
+addBookToLibrary('Ars Obscura', 'François Barranger');
 displayBooks();

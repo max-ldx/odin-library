@@ -11,8 +11,22 @@
 
 <body>
     <h1>Library</h1>
-    <button class="new-book">Add book</button>
+    <button class="add-book">Add book</button>
     <div class="library"></div>
+    <dialog class="add-book-modal">
+        <p>Add a book</p>
+        <form method="dialog">
+            <div>
+                <label for="title">Title</label>
+                <input type="text" id="title" name="title">
+            </div>
+            <div>
+                <label for="author">Author</label>
+                <input type="text" id="author" name="author">
+            </div>
+            <button class="dialog-add">Add</button>
+        </form>
+    </dialog>
 </body>
 
 </html>
