@@ -1,6 +1,6 @@
-const myLibrary = [];
+let myLibrary = [];
 
-addBookToLibrary({ title: 'Test', author: 'Test', pages: 250, read: true })
+addBookToLibrary({ title: 'The Lord Of The Rings', author: 'J.R.R Tolkien', pages: 1000, read: true })
 setupAddBookDialog();
 setupAddBookDialogClose();
 setupAddBookDialogAdd();
@@ -38,9 +38,21 @@ function displayBooks() {
         bookPagesElement.textContent = `${book.pages} pages`;
         bookElement.appendChild(bookPagesElement);
 
-        const bookReadElement = document.createElement('p');
-        bookReadElement.textContent = book.read ? 'Read' : 'To read';
+        const bookReadElement = document.createElement('button');
+        bookReadElement.textContent = book.read ? 'Mark not read' : 'Mark read';
+        bookReadElement.addEventListener('click', _ => {
+            book.read = !book.read;
+            displayBooks();
+        });
         bookElement.appendChild(bookReadElement);
+
+        const bookDeleteElement = document.createElement('button');
+        bookDeleteElement.textContent = 'Delete';
+        bookDeleteElement.addEventListener('click', _ => {
+            myLibrary = myLibrary.filter(b => b.id !== book.id);
+            displayBooks();
+        });
+        bookElement.appendChild(bookDeleteElement);
 
         libraryElement.appendChild(bookElement);
     }
