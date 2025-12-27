@@ -1,0 +1,84 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    line-height: 1.5;
+    font-family: 'system-ui', sans-serif;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+button {
+    padding: .5rem 2rem;
+    border-radius: 2rem;
+    border: none
+}
+
+dialog>div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+dialog>form {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}
+
+dialog>div>p {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+dialog>form>div {
+    display: grid;
+    grid-template-columns: 1fr 10rem;
+    gap: .5rem;
+}
+
+dialog>form>div>input[type="checkbox"] {
+    justify-self: start;
+    margin: 0;
+}
+
+.library {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+}
+
+.book {
+    width: 20rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 2rem;
+    padding: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    &>h2 {
+        margin: 0;
+        grid-column: 1 / -1;
+    }
+
+    &>p {
+        margin: 0;
+    }
+
+    & .delete-button {
+        border: none;
+        background-color: red;
+    }
+}

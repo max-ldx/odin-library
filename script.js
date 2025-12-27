@@ -48,6 +48,7 @@ function displayBooks() {
 
         const bookDeleteElement = document.createElement('button');
         bookDeleteElement.textContent = 'Delete';
+        bookDeleteElement.classList.add('delete-button');
         bookDeleteElement.addEventListener('click', _ => {
             myLibrary = myLibrary.filter(b => b.id !== book.id);
             displayBooks();
@@ -74,13 +75,13 @@ function setupAddBookDialogClose() {
 }
 
 function setupAddBookDialogAdd() {
-    const addBookButtonElement = document.querySelector('.dialog-add-book-button');
     const dialogElement = document.querySelector('.add-book-dialog');
+    const bookFormElement = document.querySelector('#book-form');
     const titleElement = document.querySelector('#title');
     const authorElement = document.querySelector('#author');
     const pagesElement = document.querySelector('#pages');
     const readElement = document.querySelector('#read');
-    addBookButtonElement.addEventListener('click', event => {
+    bookFormElement.addEventListener('submit', event => { 
         event.preventDefault();
         dialogElement.close();
         addBookToLibrary({
