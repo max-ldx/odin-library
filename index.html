@@ -11,10 +11,11 @@
 
 <body>
     <h1>Library</h1>
-    <button class="add-book">Add book</button>
+    <button class="add-book-button">Add book</button>
     <div class="library"></div>
-    <dialog class="add-book-modal">
+    <dialog class="add-book-dialog">
         <p>Add a book</p>
+        <button class="dialog-close-button">Close</button>
         <form method="dialog">
             <div>
                 <label for="title">Title</label>
@@ -24,7 +25,15 @@
                 <label for="author">Author</label>
                 <input type="text" id="author" name="author">
             </div>
-            <button class="dialog-add">Add</button>
+            <div>
+                <label for="pages">Pages</label>
+                <input type="number" id="pages" name="pages">
+            </div>
+            <div>
+                <label for="read">Read</label>
+                <input type="checkbox" id="read" name="read">
+            </div>
+            <button class="dialog-add-book-button">Add</button>
         </form>
     </dialog>
 </body>
