@@ -1,0 +1,89 @@
+/*
+  Josh's Custom CSS Reset
+  https://www.joshwcomeau.com/css/custom-css-reset/
+*/
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+*:not(dialog) {
+    margin: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    html {
+        interpolate-size: allow-keywords;
+    }
+}
+
+body {
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+p {
+    text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+/* Styling */
+
+:root {
+    --color-platinum: #EDEDED;
+    --border-radius: 4px;
+}
+
+body {
+    height: 100vh;
+}
+
+#library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 15rem);
+    gap: 1rem;
+}
+
+.book {
+    border: 1px solid var(--color-platinum);
+    border-radius: 4px;
+    width: 15rem;
+    height: 20rem;
+    padding: 1rem;
+}
