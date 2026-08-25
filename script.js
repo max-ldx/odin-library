@@ -41,6 +41,9 @@ function Library() {
         addBookToLibrary(title, author, pages, read) {
             const book = new Book(title, author, pages, read);
             this.books.push(book);
+        },
+        removeBookFromLibrary(id) {
+            this.books = this.books.filter(b => b.id !== id);
         }
     }
 }
@@ -61,6 +64,8 @@ function Renderer() {
                 const authorEl = document.createElement("p");
                 const pagesEl = document.createElement("p");
                 const readEl = document.createElement("p");
+                const toggleReadBtn = document.createElement("button");
+                const removeBtnEl = document.createElement("button");
 
                 bookEl.classList.add("book");
 
@@ -68,11 +73,27 @@ function Renderer() {
                 bookEl.appendChild(authorEl);
                 bookEl.appendChild(pagesEl);
                 bookEl.appendChild(readEl);
+                bookEl.appendChild(toggleReadBtn);
+                bookEl.appendChild(removeBtnEl);
 
                 titleEl.textContent = book.title;
                 authorEl.textContent = book.author;
                 pagesEl.textContent = `${book.pages} p.`;
-                readEl.textContent = book.read ? "Yes" : "No";
+                readEl.textContent = book.read ? "Read: Yes" : "Read: No";
+                toggleReadBtn.textContent = "Toggle read";
+                removeBtnEl.textContent = "Remove";
+
+                bookEl.dataset.id = book.id;
+
+                toggleReadBtn.addEventListener("click", () => {
+                    book.toggleRead();
+                    this.displayBooks(library);
+                });
+
+                removeBtnEl.addEventListener("click", () => {
+                    library.removeBookFromLibrary(bookEl.dataset.id);
+                    this.displayBooks(library);
+                });
 
                 libraryEl.appendChild(bookEl);
             }
