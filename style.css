@@ -87,3 +87,29 @@ body {
     height: 20rem;
     padding: 1rem;
 }
+
+.dialog-title {
+    margin-bottom: .5rem;
+}
+
+#new-book-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: auto 15rem;
+    gap: 1rem;
+}
+
+input[type="checkbox"] {
+    margin-right: auto;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
