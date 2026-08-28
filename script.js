@@ -1,126 +1,122 @@
-const library = new Library();
-const renderer = new Renderer();
-const dom = new DOM();
-library.addBookToLibrary("Ars Obscura : Sorcier d'Empire", "François Barranger", 496, true);
-library.addBookToLibrary("La Quête d'Ewilan : D'un Monde à l'Autre", "Pierre Bottero", 281, true);
-dom.setup(library, renderer);
-renderer.displayBooks(library);
+class Book {
+    #id = crypto.randomUUID();
+    #title;
+    #author;
+    #pages;
+    #read;
 
-function Book(title, author, pages, read) {
-    if (!new.target) {
-        throw Error("Must use the 'new' operator to call the constructor.");
+    constructor(title, author, pages, read) {
+        this.#title = title;
+        this.#author = author;
+        this.#pages = pages;
+        this.#read = read;
     }
 
-    this.id = crypto.randomUUID();
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+    get id() {
+        return this.#id;
+    }
 
-    return {
-        id: this.id,
-        title: this.title,
-        author: this.author,
-        pages: this.pages,
-        read: this.read,
-        toggleRead() {
-            this.read = !this.read;
+    get title() {
+        return this.#title;
+    }
+
+    get author() {
+        return this.#author;
+    }
+
+    get pages() {
+        return this.#pages;
+    }
+
+    get read() {
+        return this.#read;
+    }
+
+    toggleRead() {
+        this.#read = !this.#read;
+    }
+}
+
+class Library {
+    #books = [];
+
+    get books() {
+        return [...this.#books];
+    }
+
+    addBookToLibrary(title, author, pages, read) {
+        const book = new Book(title, author, pages, read);
+        this.#books.push(book);
+    }
+
+    removeBookFromLibrary(id) {
+        this.#books = this.#books.filter(b => b.id !== id);
+    }
+}
+
+class Renderer {
+    displayBooks(library) {
+        const libraryEl = document.querySelector("#library");
+        libraryEl.textContent = null;
+
+        for (const book of library.books.toReversed()) {
+            const bookEl = document.createElement("div");
+            const titleEl = document.createElement("h2");
+            const authorEl = document.createElement("p");
+            const pagesEl = document.createElement("p");
+            const readEl = document.createElement("p");
+            const toggleReadBtn = document.createElement("button");
+            const removeBtnEl = document.createElement("button");
+
+            bookEl.classList.add("book");
+
+            bookEl.appendChild(titleEl);
+            bookEl.appendChild(authorEl);
+            bookEl.appendChild(pagesEl);
+            bookEl.appendChild(readEl);
+            bookEl.appendChild(toggleReadBtn);
+            bookEl.appendChild(removeBtnEl);
+
+            titleEl.textContent = book.title;
+            authorEl.textContent = book.author;
+            pagesEl.textContent = `${book.pages} p.`;
+            readEl.textContent = book.read ? "Read: Yes" : "Read: No";
+            toggleReadBtn.textContent = "Toggle read";
+            removeBtnEl.textContent = "Remove";
+
+            bookEl.dataset.id = book.id;
+
+            toggleReadBtn.addEventListener("click", () => {
+                book.toggleRead();
+                this.displayBooks(library);
+            });
+
+            removeBtnEl.addEventListener("click", () => {
+                library.removeBookFromLibrary(bookEl.dataset.id);
+                this.displayBooks(library);
+            });
+
+            libraryEl.appendChild(bookEl);
         }
     }
 }
 
-function Library() {
-    if (!new.target) {
-        throw Error("Must use the 'new' operator to call the constructor.")
-    }
-
-    this.books = [];
-
-    return {
-        books: [...this.books],
-        addBookToLibrary(title, author, pages, read) {
-            const book = new Book(title, author, pages, read);
-            this.books.push(book);
-        },
-        removeBookFromLibrary(id) {
-            this.books = this.books.filter(b => b.id !== id);
-        }
-    }
-}
-
-function Renderer() {
-    if (!new.target) {
-        throw Error("Must use the 'new' operator to call the constructor.");
-    }
-
-    return {
-        displayBooks(library) {
-            const libraryEl = document.querySelector("#library");
-            libraryEl.textContent = null;
-
-            for (const book of library.books.toReversed()) {
-                const bookEl = document.createElement("div");
-                const titleEl = document.createElement("h2");
-                const authorEl = document.createElement("p");
-                const pagesEl = document.createElement("p");
-                const readEl = document.createElement("p");
-                const toggleReadBtn = document.createElement("button");
-                const removeBtnEl = document.createElement("button");
-
-                bookEl.classList.add("book");
-
-                bookEl.appendChild(titleEl);
-                bookEl.appendChild(authorEl);
-                bookEl.appendChild(pagesEl);
-                bookEl.appendChild(readEl);
-                bookEl.appendChild(toggleReadBtn);
-                bookEl.appendChild(removeBtnEl);
-
-                titleEl.textContent = book.title;
-                authorEl.textContent = book.author;
-                pagesEl.textContent = `${book.pages} p.`;
-                readEl.textContent = book.read ? "Read: Yes" : "Read: No";
-                toggleReadBtn.textContent = "Toggle read";
-                removeBtnEl.textContent = "Remove";
-
-                bookEl.dataset.id = book.id;
-
-                toggleReadBtn.addEventListener("click", () => {
-                    book.toggleRead();
-                    this.displayBooks(library);
-                });
-
-                removeBtnEl.addEventListener("click", () => {
-                    library.removeBookFromLibrary(bookEl.dataset.id);
-                    this.displayBooks(library);
-                });
-
-                libraryEl.appendChild(bookEl);
-            }
-        }
-    }
-}
-
-function DOM() {
-    if (!new.target) {
-        throw Error("Must use the 'new' operator to call the constructor.");
-    }
-
-    function setupModalOpen() {
+class DOM {
+    #setupModalOpen() {
         const newBookButton = document.querySelector("#new-book-button");
         const dialog = document.querySelector("dialog");
 
         newBookButton.addEventListener("click", () => dialog.showModal());
     }
 
-    function setupModalClose() {
+    #setupModalClose() {
         const closeDialogButton = document.querySelector("#dialog-close-button");
         const dialog = document.querySelector("dialog");
 
         closeDialogButton.addEventListener("click", () => dialog.close());
     }
 
-    function setupForm(library, renderer) {
+    #setupForm(library, renderer) {
         const dialog = document.querySelector("dialog");
         const form = document.querySelector("#new-book-form");
 
@@ -136,11 +132,17 @@ function DOM() {
         });
     }
 
-    return {
-        setup(library, renderer) {
-            setupModalOpen();
-            setupModalClose();
-            setupForm(library, renderer);
-        }
+    setup(library, renderer) {
+        this.#setupModalOpen();
+        this.#setupModalClose();
+        this.#setupForm(library, renderer);
     }
 }
+
+const library = new Library();
+const renderer = new Renderer();
+const dom = new DOM();
+library.addBookToLibrary("Ars Obscura : Sorcier d'Empire", "François Barranger", 496, true);
+library.addBookToLibrary("La Quête d'Ewilan : D'un Monde à l'Autre", "Pierre Bottero", 281, true);
+dom.setup(library, renderer);
+renderer.displayBooks(library);
